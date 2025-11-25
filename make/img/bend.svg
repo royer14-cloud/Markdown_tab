@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="3.0159528mm"
+   height="6.6230636mm"
+   viewBox="0 0 3.0159528 6.6230636"
+   version="1.1"
+   id="svg1"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="bend.svg">
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-16.879626,-7.48169)">
+    <path
+       style="fill:none;fill-opacity:1;stroke:#991717;stroke-width:0.58208334;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 17.026164,13.853294 c 1.114216,-0.649308 2.021751,-3.332995 1.706949,-4.8213103"
+       id="path4518"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:#991717;fill-opacity:1;stroke:#991717;stroke-width:0.58208334;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 18.227035,9.0965521 1.184298,-0.00334 -0.547802,-1.0275612 z"
+       id="path4520"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>

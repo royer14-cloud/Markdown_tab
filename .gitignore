@@ -1,0 +1,16 @@
+ECHO est  activado.
+# ignorar carpetas
+.idea/
+__pycache__/
+build/
+dist/
+config/__pycache__/
+make/__pycache__/
+testeo/
+venv2/
+
+# ignorar archivos
+config/Config.ui
+make/chord.svg
+make/tutorial/ejemplo.html
+tricsTAB.txt

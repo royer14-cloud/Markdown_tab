@@ -1,0 +1,137 @@
+{
+  "E": {
+    "I": [
+      { "type":"circle", "x": 18, "y": 5, "radius":3}, 
+      { "type":"circle", "x": 12, "y": 15, "radius":3},
+      { "type":"circle", "x": 6, "y": 15, "radius":3},
+	  { "type":"textx", "x":22, "y":-10, "text":"o"},
+	  { "type":"textx", "x":10, "y":-10, "text":"o"},
+      { "type":"text", "x":-10, "y": -5, "text":"1"} 
+    ],
+    "II": [
+      { "type":"circle", "x": 30, "y": 5, "radius":3},
+      { "type":"circle", "x": 18, "y": 5, "radius":3}, 
+      { "type":"circle", "x": 24, "y": 15, "radius":3}, 
+      { "type":"circle", "x": 12, "y": 25, "radius":3}, 
+      { "type":"textx", "x":-7, "y":-10, "text":"x"}, 
+      { "type":"textx", "x":-7, "y":-10, "text":"x"}, 	  
+      { "type":"text", "x":-10, "y":-5, "text":"4"} 
+    ],
+    "III": [
+      { "type":"rect", "x": 5, "y": 2, "w":25, "h": 5},
+      { "type":"circle", "x": 24, "y": 25, "radius":3}, 
+	  { "type":"circle", "x": 18, "y": 25, "radius":3}, 
+	  { "type":"circle", "x": 12, "y": 25, "radius":3}, 
+	  { "type":"textx", "x":-7, "y":-10, "text":"x"}, 
+      { "type":"text", "x":-10, "y":-5, "text":"7"} 
+    ],
+    "IIII": [
+      { "type":"rect", "x": -1, "y": 2, "w":32, "h": 5},
+      { "type":"circle", "x": 18, "y": 15, "radius":3}, 
+      { "type":"circle", "x": 12, "y": 25, "radius":3}, 
+      { "type":"circle", "x": 6, "y": 25, "radius":3}, 
+      { "type":"text", "x":-10, "y":-5, "text":"12"} 
+    ]
+  },
+  "Edim": {
+	"I": [
+	  { "type":"circle", "x": 30, "y": 5, "radius":3},
+	  { "type":"circle", "x": 18, "y": 5, "radius":3}, 
+	  { "type":"circle", "x": 24, "y": 25, "radius":3},
+	  { "type":"textx", "x":-1, "y":-10, "text":"x"},
+	  { "type":"textx", "x":-7, "y":-10, "text":"x"}, 
+	  { "type":"text", "x":-10, "y":-5, "text":"3"} 
+	],
+	"II": [
+	   { "type":"circle", "x": 6, "y": 5, "radius":3},
+       { "type":"circle", "x": 24, "y": 15, "radius":3},
+       { "type":"circle", "x": 30, "y": 25, "radius":3},
+       { "type":"circle", "x": 18, "y": 25, "radius":3}, 
+       { "type":"textx", "x":4, "y":-10, "text":"x"},
+       { "type":"textx", "x":-7, "y":-10, "text":"x"},
+       { "type":"text", "x":-10, "y":-5, "text":"10"} 	   
+	]
+  },
+  "Em": {
+	"I": [
+	  { "type":"circle", "x": 12, "y": 15, "radius":3},
+	  { "type":"circle", "x": 6, "y": 15, "radius":3},
+	  { "type":"textx", "x":22, "y":-10, "text":"o"},
+	  { "type":"textx", "x":10, "y":-10, "text":"o"},
+	  { "type":"textx", "x":7, "y":-10, "text":"o"},
+	  { "type":"textx", "x":-7, "y":-10, "text":"o"},
+	  { "type":"text", "x":-10, "y":-5, "text":"1"} 
+	],
+	"II": [
+	  { "type":"circle", "x": 30, "y": 5, "radius":3},
+	  { "type":"circle", "x": 18, "y": 15, "radius":3}, 
+	  { "type":"circle", "x": 24, "y": 25, "radius":3}, 
+	  { "type":"textx", "x":-1, "y":-10, "text":"x"}, 
+	  { "type":"textx", "x":-7, "y":-10, "text":"x"},
+	  { "type":"text", "x":-10, "y":-5, "text":"3"}
+	],
+	"III": [
+	  { "type":"rect", "x": 5, "y": 2, "w":25, "h": 5},
+	  { "type":"circle", "x": 24, "y": 15, "radius":3},
+	  { "type":"circle", "x": 18, "y": 25, "radius":3},
+	  { "type":"circle", "x": 12, "y": 25, "radius":3},
+	  { "type":"textx", "x":-7, "y":-10, "text":"x"},
+	  { "type":"text", "x":-10, "y":-5, "text":"7"}
+	],
+	"IIII": [
+	  { "type":"rect", "x": -1, "y": 2, "w":32, "h": 5},
+	  { "type":"circle", "x": 12, "y": 25, "radius":3},
+	  { "type":"circle", "x": 6, "y": 25, "radius":3},
+	  { "type":"text", "x":-10, "y":-5, "text":"12"}
+	]
+  },
+  "Eb": {
+	 "I": [
+	  { "type":"circle", "x": 30, "y": 5, "radius":3},
+	  { "type":"circle", "x": 18, "y": 5, "radius":3}, 
+	  { "type":"circle", "x": 24, "y": 15, "radius":3},
+	  { "type":"circle", "x": 12, "y": 25, "radius":3},
+	  { "type":"textx", "x":-7, "y":-10, "text":"x"},
+	  { "type":"text", "x":-10, "y":-5, "text":"3"}
+	 ],
+	 "II": [
+	  { "type":"rect", "x": 5, "y": 2, "w":25, "h": 5},
+	  { "type":"circle", "x": 24, "y": 25, "radius":3},
+      { "type":"circle", "x": 18, "y": 25, "radius":3}, 
+      { "type":"circle", "x": 12, "y": 25, "radius":3},
+      { "type":"textx", "x":-7, "y":-10, "text":"x"},
+      { "type":"text", "x":-10, "y":-5, "text":"6"} 	  
+	 ],
+	 "III": [
+	  { "type":"rect", "x": -1, "y": 2, "w":32, "h": 5},
+	  { "type":"circle", "x": 18, "y": 15, "radius":3}, 
+	  { "type":"circle", "x": 12, "y": 25, "radius":3},
+	  { "type":"circle", "x": 6, "y": 25, "radius":3},
+	  { "type":"text", "x":-10, "y":-5, "text":"11"} 
+	 ]
+  },
+  "Ebm": {
+	"I": [
+	  { "type":"circle", "x": 30, "y": 5, "radius":3},
+	  { "type":"circle", "x": 18, "y": 15, "radius":3}, 
+	  { "type":"circle", "x": 24, "y": 25, "radius":3}, 
+	  { "type":"textx", "x":-1, "y":-10, "text":"x"}, 
+	  { "type":"textx", "x":-7, "y":-10, "text":"x"}, 
+	  { "type":"text", "x":-10, "y":-5, "text":"2"}
+	],
+	"II": [
+	  { "type":"rect", "x": 5, "y": 2, "w":25, "h": 5},
+	  { "type":"circle", "x": 24, "y": 15, "radius":3}, 
+	  { "type":"circle", "x": 18, "y": 25, "radius":3},
+	  { "type":"circle", "x": 12, "y": 25, "radius":3}, 
+	  { "type":"textx", "x":-7, "y":-10, "text":"x"}, 
+	  { "type":"text", "x":-10, "y":-5, "text":"6"}
+	],
+	"III": [
+	  { "type":"rect", "x": -1, "y": 2, "w":32, "h": 5},
+	  { "type":"circle", "x": 12, "y": 25, "radius":3}, 
+	  { "type":"circle", "x": 6, "y": 25, "radius":3},
+	  { "type":"text", "x":-10, "y":-5, "text":"11"}
+	]
+  }
+}
