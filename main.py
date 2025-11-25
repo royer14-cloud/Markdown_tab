@@ -49,7 +49,7 @@ class MarkdownHighlighter(QSyntaxHighlighter):
         super().__init__(document)
         # definir los patrones una vez
         self.titlePattern = QRegExp(r"^##.*$")
-        self.codeblockStartPattern = QRegExp(r"^:::chord$")
+        self.codeblockStartPattern = QRegExp(r"^:::chord")
         self.codeblockEndPattern = QRegExp(r"^:::$")
         self.tabblockStartPattern = QRegExp(r"^```tab\s*$")
         self.tabblockEndPattern = QRegExp(r"^```\s*$")
