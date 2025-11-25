@@ -2,10 +2,10 @@ import os.path
 import subprocess
 import sys
 
-from PySide2.QtWidgets import QApplication, QPlainTextEdit, QMainWindow, QShortcut, QAction, QToolBar, QFileDialog, \
-    QWidget, QSizePolicy, QProgressDialog, QMessageBox
+from PySide2.QtWidgets import QApplication, QPlainTextEdit, QMainWindow, QShortcut, QAction, QToolBar, \
+    QWidget, QSizePolicy, QProgressDialog
 from PySide2.QtGui import QColor, QTextCharFormat, QFont, QSyntaxHighlighter, QWheelEvent, QKeySequence, QIcon, QPalette
-from PySide2.QtCore import QRegExp, Qt, QSize, QObject, Signal, QThread
+from PySide2.QtCore import QRegExp, Qt, QSize, Signal, QThread
 
 from View import ImageViewer
 from Dialog import FileDialog
@@ -212,7 +212,7 @@ class CodeEditor(QPlainTextEdit):
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Markdown Music Tab")
+        self.setWindowTitle("Markdown Tab")
         self.resize(500, 600)
         self.setWindowIcon(QIcon("icons/icon.png"))
         self.theme = "light"
@@ -337,7 +337,7 @@ class MainWindow(QMainWindow):
                     return
 
         if self.thread_pdf and self.thread_pdf.isRuning():
-            print("esta corriendo")
+            show_info(self, "Procesando", "La visualización aun esta procesandose", "info", self.theme)
             return
 
         if not self.current_file:
@@ -362,8 +362,7 @@ class MainWindow(QMainWindow):
             self.progreso = None
 
         if not result:
-            show_info(self, "Aviso", f"no es posible generar visualizador porque: {result}", "adv", self.theme)
-            # QMessageBox.warning(self, "Aviso", f"No se pudo generar la vista o se canceló. {result}")
+            show_info(self, "Aviso", f"no es posible generar visualizador porque:\n{result}", "adv", self.theme)
             return
         self.tempdir = result
 
@@ -386,7 +385,7 @@ class MainWindow(QMainWindow):
             try:
                 self.thread_pdf.cancel()
             except Exception as e:
-                show_info(self, "Error", f"Error al compilar la visualizacion en: {e}", "error", self.theme)
+                show_info(self, "Error", f"Error al compilar la visualizacion en:\n{e}", "error", self.theme)
                 # print("Error cancel build: ", e)
 
         if self.progreso:
@@ -428,7 +427,6 @@ class MainWindow(QMainWindow):
                 f.write(content)
             self.txt_editor_update = False
             self.btn_save.setIcon(QIcon(self.icon_paths[self.theme]["save"]))
-            # show_info(self, "Guardado", "El documento ha sido guardado con éxito", "info", self.theme)
         else:
             show_info(self, "No guardado", "El documento esta vacio", "adv", self.theme)
             return False
@@ -511,8 +509,7 @@ class MainWindow(QMainWindow):
                 subprocess.Popen([ruta], startupinfo=startinfo, creationflags=subprocess.CREATE_NO_WINDOW)
                 print("ejecutado: ", ruta)
             except Exception as e:
-                show_info(self, "Error", f"Ha ocurrido un error al eliminar los temporales: {e}", "adv",self.theme)
-                # print("Error al eliminar: ", e)
+                show_info(self, "Error", f"Ha ocurrido un error al eliminar los temporales:\n{e}", "adv", self.theme)
         super().closeEvent(event)
         QApplication.quit()
 
@@ -563,7 +560,6 @@ def sample_document(self, tutorial=False):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     app.setPalette(get_light_palette())
-    # app.setQuitOnLastWindowClosed(True)
     ventana = MainWindow()
     ventana.show()
     sys.exit(app.exec_())
