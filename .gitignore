@@ -7,7 +7,7 @@ dist/
 config/__pycache__/
 make/__pycache__/
 testeo/
-venv2/
+venv/
 
 # ignorar archivos
 config/Config.ui

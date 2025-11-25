@@ -58,7 +58,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='MdMusicTab',  # Cambia 'MiAplicacion' al nombre deseado
+    name='MdTab',  # Cambia 'MiAplicacion' al nombre deseado
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -88,5 +88,5 @@ coll = COLLECT(
     strip=False,
     upx=True,
     upx_exclude=[],
-    name='MarkdownMusic' # Nombre de la carpeta de salida
+    name='MarkdownTab' # Nombre de la carpeta de salida
 )
