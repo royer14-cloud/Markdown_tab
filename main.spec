@@ -27,6 +27,7 @@ a = Analysis(
         'make.extPDF',  # Importa el módulo make.extPDF
         'make.export',  # Importa el módulo make.export
         'config.CFG',  # Importa el módulo MainPop
+        'config.cmessagebox', # Importa el módulo show_info
     ],
     hookspath=[],
     runtime_hooks=[],
