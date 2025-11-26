@@ -19,3 +19,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+Atributions
+Pyside2 used for grafical interface
+fpdf used for generating PDF files [pyfpdf.github.io](pyfpdf.github.io)
+PyInstaller Used for packaging the application into a standalone executable [pyinstaller.org](pyinstaller.org)
