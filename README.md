@@ -9,4 +9,5 @@ Por el momento las tablaturas grafican: bend, hammer-on , pull-of. Ademas de un 
 
 ## Descarga
 Solo esta disponible para windows, por favor contactese conmigo a mi email **fmorinav@gmail.com** si tiene alguna sugerencia o novedad que desee para añadir
-![Enlace a descargar](https://github.com/royer14-cloud/Markdown_tab/releases/download/v1.1.0/MarkdownTab-portable.zip "MarkdownTab-portable.zip")
+
+[Enlace a descargar](https://github.com/royer14-cloud/Markdown_tab/releases/download/v1.1.0/MarkdownTab-portable.zip "MarkdownTab-portable.zip")
