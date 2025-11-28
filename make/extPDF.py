@@ -420,7 +420,7 @@ class SongbookPDF(FPDF):
                 self.set_line_width(max(0.01, 0.2 * s))
                 self.set_draw_color("#000000")
 
-            elif t == "text":
+            elif t == "text":  # Posicion del acorde en la guitarra
                 txt = str(shape.get("text", ""))
                 txt_size = shape.get("size", 16)  # si el json trae size lo usamos
                 try:

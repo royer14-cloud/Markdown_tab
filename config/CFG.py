@@ -75,7 +75,7 @@ class MainPop(QDialog):
 
         inner_vbox.addWidget(groupbox, 2, Qt.AlignCenter)
 
-        lbl_x = QLabel("Posicion x", alignment=Qt.AlignCenter)
+        lbl_x = QLabel("Margen izquierdo", alignment=Qt.AlignCenter)
         inner_vbox.addWidget(lbl_x)
 
         self.spinBox_3 = QSpinBox()
@@ -113,7 +113,9 @@ class MainPop(QDialog):
             return combo
 
         self.cmb_chn = add_combo("Chord number")
+        self.cmb_chn.setEnabled(False)
         self.cmb_chs = add_combo("Chord Symbol")
+        self.cmb_chs.setEnabled(False)
         self.cmb_tab = add_combo("Tablature")
         self.cmb_verse = add_combo("Versos")
         self.cmb_body = add_combo("Cuerpo")
