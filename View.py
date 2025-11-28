@@ -177,14 +177,14 @@ class ImageViewer(QWidget):
         self.label.setPixmap(scaled_pixmap)
 
     def export(self):
-        path = FileDialog.get_file(self, "Exportar", "", "PDF Files (*.pdf);", self.theme, True)
+        path = FileDialog.get_file(self, "Exportar", "", "PDF Files (*.pdf)", self.theme, True)
         if path:
             pdf = os.path.join(self.tempdir, self.pdfname)
             if os.path.isfile(pdf):
                 shutil.copy2(pdf, path)
-                show_info(self, "Exportado", f"El documento ha sido exportado con éxito en:\n{path}", "info", self.theme)
+                show_info(self, "Exportado", f'El documento ha sido exportado con éxito en:<br><a href="file:///{os.path.dirname(path)}">{path}</a>', "info", self.theme)
             else:
-                show_info(self, "Error al exportar", "Hubo un problema con la exportación\nPorfavor no eliminar la carpeta de los temporales en windows", "adv", self.theme)
+                show_info(self, "Error al exportar", "Hubo un problema con la exportación<br>Porfavor no eliminar la carpeta de los temporales en windows", "adv", self.theme)
 
     def update_floating_button_position(self):
         button_width = self.next_btn.width()

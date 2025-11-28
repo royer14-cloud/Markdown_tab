@@ -1,10 +1,14 @@
+from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QMessageBox
 
 
 def show_info(self, title, text, tipo="info", theme="light"):
     box = QMessageBox(self)
     box.setWindowTitle(title)
+    box.setTextFormat(Qt.RichText)
+    box.setTextInteractionFlags(Qt.TextBrowserInteraction)
     box.setText(text)
+    abrir = None
     if tipo == "info":
         box.setIcon(QMessageBox.Information)
     elif tipo == "adv":

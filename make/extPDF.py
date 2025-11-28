@@ -2,6 +2,7 @@ import re
 import os
 from fpdf import FPDF
 from fpdf.enums import XPos, YPos
+from datetime import datetime
 import json
 
 
@@ -122,6 +123,13 @@ class SongbookPDF(FPDF):
         #           new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="C")
 
     def add_song(self, meta, body):
+        # Agregando metadatos al pdf
+        self.set_title(meta.get("title", " "))
+        self.set_author(meta.get("autor", " "))
+        self.set_creator("Markdown Tab")
+        self.set_subject("Puedes descargar el software en: https://github.com/royer14-cloud/Markdown_tab")
+        self.set_creation_date(datetime.now())
+
         # Título/autor a ancho completo
         self.set_font("Fira", 'B', 16)
         x = self.w-13
