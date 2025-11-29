@@ -147,7 +147,85 @@ class SongbookPDF(FPDF):
         # Por si el archivo termina con columnas abiertas
         self.end_columns()
 
+    def processhorttab(self, texto):
+        # procesa el bloque ```vtab
+        lineas = [["|"]] + [[" "] for _ in range(5)]
+        tmp = []
+        isln = True
+
+        for linea in texto.split():
+            if "." in linea:
+                nlinea = linea.replace(".", " ")
+                pares = [item.split("_") for item in nlinea.split()]
+                max_par = max(len(val) for _, val in pares)
+                for cuerda, txt in pares:
+                    col = int(cuerda) - 1
+                    string = list(txt)
+                    while len(string) < max_par:
+                        string.append("-")
+                    lineas[col].extend(string)
+            else:
+
+                cl, txt = linea.split("_")
+                col = int(cl) - 1
+                if isln:
+                    for nwline in range(len(lineas) - 1):
+                        lineas[col].append("-")
+                    isln = False
+                if len(txt) > 1:
+                    tmp.append(len(txt))
+                    string = list(txt)
+                    while len(string) < max(tmp) + 1:
+                        string.append("-")
+                    lineas[col].extend(string)
+                else:
+                    lineas[col].extend(txt)
+
+        max_len = max(map(len, lineas))
+        lineas = [sub + ["-"] * (max_len - len(sub)) for sub in lineas]
+        tablatura = ""
+        for lista in lineas:
+            tablatura += "".join(lista) + "\n"
+        return tablatura
+
+    def parse_shorttab(self, body_text):
+        # La funcion permite simplificar la escritura de tablaturas en una sola linea (cuerda)_(traste)
+        lineas = body_text.strip().splitlines()
+        tablatura = []
+        i = 0
+        while i < len(lineas):
+            linea = lineas[i]
+            if linea.strip().startswith("```vtab"):
+                tab_block = []
+                i += 1
+                while i < len(lineas) and not lineas[i].strip().startswith("```"):
+                    tab_block.append(lineas[i])
+                    i += 1
+                if i < len(lineas):
+                    i += 1
+                tablatura.append("```tab")
+                for tlinea in tab_block:
+                    s = tlinea.strip()
+                    if s.startswith("{"):
+                        tablatura.append(tlinea)
+                        continue
+                    if s and s[0].isdigit():
+                        procesar = self.processhorttab(tlinea)
+                        for pl in procesar.splitlines():
+                            tablatura.append(pl)
+                        continue
+                    if s:
+                        tablatura.append(tlinea)
+
+                tablatura.append("```")
+                continue
+            # linea fuera del bloque
+            tablatura.append(linea)
+            i += 1
+        return "\n".join(tablatura)
+
     def parse_body(self, body_text):
+        # bodytext = self.parse_shorttab(body_text) # en desarrollo para simplificar tablaturas
         lines = body_text.strip().splitlines()
         i = 0
         bis_active = False
