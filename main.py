@@ -13,6 +13,23 @@ from make.export import make_book
 from config.CFG import MainPop
 from config.cmessagebox import show_info
 
+from load_dir import load_init, abs_path
+
+# congelar ruta
+BASE_DIR = ""
+
+
+# def load_init():
+#     global BASE_DIR
+#     if hasattr(sys, '_MEIPASS'):
+#         BASE_DIR = sys._MEIPASS
+#     elif getattr(sys, 'frozen',False):
+#         BASE_DIR = os.path.dirname(sys.executable)
+#     else:
+#         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+#
+#     os.chdir(BASE_DIR)
+
 
 class PdfThread(QThread):
     terminado = Signal(object)
@@ -214,28 +231,28 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("Markdown Tab")
         self.resize(500, 600)
-        self.setWindowIcon(QIcon("icons/icon.png"))
+        self.setWindowIcon(QIcon(abs_path("icons", "icon.png")))
         self.theme = "light"
         self.icon_paths = {
             "light": {
-                "new": "icons/light/new.png",
-                "import": "icons/light/import.png",
-                "save": "icons/light/save.png",
-                "save1": "icons/light/save1.png",
-                "song": "icons/light/music_note.png",
-                "preview": "icons/light/preview.png",
-                "theme": "icons/light/theme.png",
-                "config": "icons/light/config.png"
+                "new": abs_path("icons", "light", "new.png"),
+                "import": abs_path("icons", "light", "import.png"),
+                "save": abs_path("icons", "light", "save.png"),
+                "save1": abs_path("icons", "light", "save1.png"),
+                "song": abs_path("icons", "light", "music_note.png"),
+                "preview": abs_path("icons", "light", "preview.png"),
+                "theme": abs_path("icons", "light", "theme.png"),
+                "config": abs_path("icons", "light", "config.png")
             },
             "dark": {
-                "new": "icons/dark/new.png",
-                "import": "icons/dark/import.png",
-                "save": "icons/dark/save.png",
-                "save1": "icons/dark/save1.png",
-                "song": "icons/dark/music_note.png",
-                "preview": "icons/dark/preview.png",
-                "theme": "icons/dark/theme.png",
-                "config": "icons/dark/config.png"
+                "new": abs_path("icons", "dark", "new.png"),
+                "import": abs_path("icons", "dark", "import.png"),
+                "save": abs_path("icons", "dark", "save.png"),
+                "save1": abs_path("icons", "dark", "save1.png"),
+                "song": abs_path("icons", "dark", "music_note.png"),
+                "preview": abs_path("icons", "dark", "preview.png"),
+                "theme": abs_path("icons", "dark", "theme.png"),
+                "config": abs_path("icons", "dark", "config.png")
             }
         }
 
@@ -504,7 +521,7 @@ class MainWindow(QMainWindow):
             startinfo = subprocess.STARTUPINFO()
             startinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
             startinfo.wShowWindow = subprocess.SW_HIDE
-            ruta = os.path.join(os.getcwd(), "make", "tutorial", "remove.exe")
+            ruta = abs_path("make", "tutorial", "remove.exe")
             try:
                 subprocess.Popen([ruta], startupinfo=startinfo, creationflags=subprocess.CREATE_NO_WINDOW)
                 print("ejecutado: ", ruta)
@@ -538,28 +555,38 @@ def get_dark_palette():
 
 
 def save_folder(path):
-    with open("make/tutorial/path.lib", "a", encoding="utf-8") as f:
-        f.write("\n"+path)
+    ruta = abs_path("make", "tutorial", "path.lib")
+    print("ruta: ",ruta)
+    with open(ruta, "a", encoding="utf-8") as file:
+        file.write("\n"+path)
 
 
 def sample_document(self, tutorial=False):
     if tutorial:
-        if os.path.exists("make/tutorial/example.mdg"):
-            with open("make/tutorial/example.mdg", "r", encoding="utf-8") as f:
-                text = f.read()
+        ruta = abs_path("make", "tutorial", "example.mdg")
+        if os.path.exists(ruta):
+            with open(ruta, "r", encoding="utf-8") as file:
+                text = file.read()
             self.setPlainText(text)
         return None
     else:
-        if os.path.exists("make/tutorial/new.mdg"):
-            with open("make/tutorial/new.mdg", "r", encoding="utf-8") as f:
-                text = f.read()
+        ruta = abs_path("make", "tutorial", "new.mdg")
+        if os.path.exists(ruta):
+            with open(ruta, "r", encoding="utf-8") as file:
+                text = file.read()
             self.setPlainText(text)
         return None
 
 
 if __name__ == "__main__":
+    load_init()  # cargar directorio
     app = QApplication(sys.argv)
     app.setPalette(get_light_palette())
     ventana = MainWindow()
+    # argumento al abrir con un archivo
+    if len(sys.argv) > 1:
+        ventana.current_file = os.path.abspath(sys.argv[1])
+        with open(ventana.current_file, "r", encoding="utf-8") as f:
+            ventana.editor.setPlainText(f.read())
     ventana.show()
     sys.exit(app.exec_())

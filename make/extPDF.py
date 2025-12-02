@@ -4,6 +4,7 @@ from fpdf import FPDF
 from fpdf.enums import XPos, YPos
 from datetime import datetime
 import json
+from load_dir import abs_path
 
 
 class SongbookPDF(FPDF):
@@ -30,11 +31,11 @@ class SongbookPDF(FPDF):
         self.no_free = []  # espacios Y ocupados por el bloque tab
 
         # fuentes
-        self.add_font("Osans", "", fname="make/fonts/OpenSans_Condensed-Bold.ttf")
-        self.add_font("Consolas", "", fname="make/fonts/Inconsolata.ttf")
-        self.add_font("Consolas", "B", fname="make/fonts/Inconsolata-ExtraBold.ttf")
-        self.add_font("Fira", "B", fname="make/fonts/FiraCode-Bold.ttf")
-        self.add_font("Fira", "", fname="make/fonts/FiraCode-Regular.ttf")
+        self.add_font("Osans", "", fname=abs_path("make", "fonts", "OpenSans_Condensed-Bold.ttf"))
+        self.add_font("Consolas", "", fname=abs_path("make", "fonts", "Inconsolata.ttf"))
+        self.add_font("Consolas", "B", fname=abs_path("make", "fonts", "Inconsolata-ExtraBold.ttf"))
+        self.add_font("Fira", "B", fname=abs_path("make", "fonts", "FiraCode-Bold.ttf"))
+        self.add_font("Fira", "", fname=abs_path("make", "fonts", "FiraCode-Regular.ttf"))
 
     # ---------- helpers de columnas ----------
     def current_col_x(self):
@@ -433,7 +434,7 @@ class SongbookPDF(FPDF):
         num_x = x + string_spacing  # referencia para algunos textos
 
         note = chord_name[0].upper()
-        directory = os.path.join("make/chords", f"{note}.json")
+        directory = os.path.join(abs_path("make", "chords"), f"{note}.json")
         if not os.path.exists(directory):
             # si no existe archivo, no dibuja shapes pero sigue devolviendo
             # opcional: dibujar una X o algo para indicar falta
@@ -566,9 +567,9 @@ class SongbookPDF(FPDF):
         self.set_font("Consolas", '', self.size_text_code)
 
         icon_map = {
-            "h": ("make/img/hammer.svg", 1, -1.5, 4),  # (archivo, dx, dy, ancho)
-            "p": ("make/img/hammer.svg", 1, -1.5, 4),
-            "b": ("make/img/bend.svg", 2.2, -2.4, 2),
+            "h": (abs_path("make", "img", "hammer.svg"), 1, -1.5, 4),  # (archivo, dx, dy, ancho)
+            "p": (abs_path("make", "img", "hammer.svg"), 1, -1.5, 4),
+            "b": (abs_path("make", "img", "bend.svg"), 2.2, -2.4, 2),
         }
 
         # patrón que captura símbolo o bloque literal
