@@ -7,6 +7,7 @@ from PySide2.QtCore import Qt, QSize, Signal
 
 from Dialog import FileDialog
 from config.cmessagebox import show_info
+from load_dir import abs_path
 
 
 class ImageViewer(QWidget):
@@ -14,7 +15,7 @@ class ImageViewer(QWidget):
 
     def __init__(self, tempdir=None, pdfname=None, theme="light"):
         super().__init__()
-        self.setWindowIcon(QIcon("icons/icon.png"))
+        self.setWindowIcon(QIcon(abs_path("icons", "icon.png")))
         self.setWindowTitle("Preview")
         self.setGeometry(100, 100, 300, 400)
         self.setMinimumSize(300, 400)
@@ -24,16 +25,16 @@ class ImageViewer(QWidget):
         self.pdfname = pdfname
         self.tempdir = tempdir
         self.index = 0
-        self.new = True
+        self.scale_factor = 1.0
         self.theme = theme
         self.icons_path = {
             "light": {
-                "left": "icons/light/left.png",
-                "right": "icons/light/right.png"
+                "left": abs_path("icons", "light", "left.png"),
+                "right": abs_path("icons", "light", "right.png")
             },
             "dark": {
-                "left": "icons/dark/left.png",
-                "right": "icons/dark/right.png"
+                "left": abs_path("icons", "dark", "left.png"),
+                "right": abs_path("icons", "dark", "right.png")
             }
         }
 
@@ -64,7 +65,7 @@ class ImageViewer(QWidget):
         # Botones flotantes
         self.prev_btn = QPushButton(self)
         self.prev_btn.setFlat(True)
-        self.prev_btn.setIcon(QIcon("icons/light/left.png"))
+        self.prev_btn.setIcon(QIcon(abs_path("icons", "light", "left.png")))
         self.prev_btn.setIconSize(QSize(24, 24))
         self.prev_btn.setFixedSize(40, 40)
         self.prev_btn.setStyleSheet("""
@@ -73,7 +74,7 @@ class ImageViewer(QWidget):
 
         self.next_btn = QPushButton(self)
         self.next_btn.setFlat(True)
-        self.next_btn.setIcon(QIcon("icons/light/right.png"))
+        self.next_btn.setIcon(QIcon(abs_path("icons", "light", "right.png")))
         self.next_btn.setIconSize(QSize(24, 24))
         self.next_btn.setFixedSize(40, 40)
         self.next_btn.setStyleSheet("""
@@ -81,6 +82,7 @@ class ImageViewer(QWidget):
         """)
 
         # Mostrar imagen inicialmente escalada al ancho de la ventana
+        self.base_width = None
         self.update_image()
 
         self.update_floating_button_position()  # Posición inicial
@@ -89,7 +91,7 @@ class ImageViewer(QWidget):
         self.btnExport.clicked.connect(self.export)
         self.change_theme(theme)
 
-        self.scale_factor = 1.0
+
 
     def change_theme(self, theme):
         self.theme = theme
@@ -116,38 +118,32 @@ class ImageViewer(QWidget):
         if self.index > 0:
             self.index -= 1
             self.original_pixmap = QPixmap(self.images[self.index])
-            # self.new = False
             self.update_image(self.new)
 
     def show_next(self):
         if self.index < len(self.images) - 1:
             self.index += 1
             self.original_pixmap = QPixmap(self.images[self.index])
-            # self.new = False
             self.update_image(self.new)
 
-    def update_image(self, new=True):
-        self.new = new
+    def update_image(self, reset_base=False):
         if self.original_pixmap.isNull():
             return
-        # Obtener ancho actual del QLabel
-        label_width = self.label.width()
-        if self.new:
-            label_width = self.label.width() / 2
-        pixmap_width = self.original_pixmap.width()
+        # limitar ancho a la mitad del procesado
+        if reset_base or self.base_width is None:
+            self.base_width = self.label.width() / 2
 
-        # No escalar si la imagen es más pequeña que el ancho del label
-        if pixmap_width <= label_width:
-            scaled_pixmap = self.original_pixmap
-        else:
-            # Escalar al ancho del label manteniendo la proporción
-            scaled_pixmap = self.original_pixmap.scaledToWidth(label_width, Qt.SmoothTransformation)
+        # establecer ancho definido
+        final_width = int(self.base_width * self.scale_factor)
+        final_pixmap = self.original_pixmap.scaledToWidth(
+            final_width,
+            Qt.SmoothTransformation
+        )
 
-        self.label.setPixmap(scaled_pixmap)
+        self.label.setPixmap(final_pixmap)
 
     def clean_img(self):
         self.label.setPixmap(None)
-        # self.label.clear()
 
     def new_view(self, tempdir, pdfname, theme):
         self.tempdir = tempdir
@@ -171,10 +167,7 @@ class ImageViewer(QWidget):
 
         # Limitar factor para no desaparecer ni agrandar demasiado
         self.scale_factor = max(0.3, min(self.scale_factor, 2.0))
-
-        new_width = int(self.original_pixmap.width() * self.scale_factor)
-        scaled_pixmap = self.original_pixmap.scaledToWidth(new_width, Qt.SmoothTransformation)
-        self.label.setPixmap(scaled_pixmap)
+        self.update_image(False)
 
     def export(self):
         path = FileDialog.get_file(self, "Exportar", "", "PDF Files (*.pdf)", self.theme, True)
@@ -188,7 +181,6 @@ class ImageViewer(QWidget):
 
     def update_floating_button_position(self):
         button_width = self.next_btn.width()
-        button_height = self.next_btn.height()
         padding = 10
         y = int(self.height() / 2.5)
         self.next_btn.move(self.width() - button_width - padding, y)
