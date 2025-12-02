@@ -20,6 +20,8 @@ a = Analysis(
         ('config/config.cfg', 'config'), # Configuracion de aplicacion
         ('config/dark.css', 'config'), # tema de CFG
         ('config/light.css', 'config'), # tema de CFG
+		('make/tutorial/remove.exe', 'make/tutorial'), # carpeta del eliminador
+		('make/tutorial/remove.exe.config', 'make/tutorial') # config del eliminador
     ],
     hiddenimports=[
         'View',       # Importa explícitamente el módulo View
