@@ -91,8 +91,6 @@ class ImageViewer(QWidget):
         self.btnExport.clicked.connect(self.export)
         self.change_theme(theme)
 
-
-
     def change_theme(self, theme):
         self.theme = theme
         self.prev_btn.setIcon(QIcon(self.icons_path[theme]["left"]))
