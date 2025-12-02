@@ -8,6 +8,7 @@
 #
 # a = Analysis(...) es donde PyInstaller escanea tu código fuente
 # para encontrar todos los módulos y archivos necesarios.
+block_cipher = None
 
 a = Analysis(
     ['main.py'],  # Reemplaza 'main.py' con el nombre de tu archivo principal.
@@ -43,7 +44,7 @@ a = Analysis(
     excludes=[],
     win_no_prefer_redirects=False,
     win_private_assemblies=False,
-    cipher=None,
+    cipher=block_cipher,
     noarchive=False,
 )
 
@@ -51,7 +52,7 @@ a = Analysis(
 #
 # pyz = PYZ(...) crea un archivo comprimido de las dependencias.
 
-pyz = PYZ(a.pure, a.zipped_data, cipher=None)
+pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
 # --- Configuración del ejecutable (EXE) ---
 #
@@ -70,17 +71,29 @@ exe = EXE(
     [],
     name='MdTab',  # Cambia 'MiAplicacion' al nombre deseado
     debug=False,
-    bootloader_ignore_signals=False,
+    # bootloader_ignore_signals=False,
     strip=False,
     upx=True,
-    upx_exclude=[],
+    # upx_exclude=[],
     runtime_tmpdir=None,
     console=False,  # <--- Esto crea una aplicación "windowed" sin consola.
-    disable_windowed_traceback=False,
-    argv_emulation=False,
-    target_arch=None,
-    codesign_identity=None,
-    entitlements_file=None,
+    # disable_windowed_traceback=False,
+    # argv_emulation=False,
+    # target_arch=None,
+    # codesign_identity=None,
+    # entitlements_file=None,
+    append_pkg=True,
     icon='icons/icon.png', # <--- Ruta a tu archivo de icono.
     version='version.txt' # <--- Esto indica a PyInstaller que lea la información
+)
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    strip=False,
+    upx=True,
+    # upx_exclude=[],
+    name='Markdown Tab' # Nombre de la carpeta de salida
 )
