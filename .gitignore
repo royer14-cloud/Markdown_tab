@@ -1,4 +1,4 @@
-ECHO est  activado.
+ECHO estï¿½ activado.
 # ignorar carpetas
 .idea/
 __pycache__/
@@ -8,6 +8,7 @@ config/__pycache__/
 make/__pycache__/
 testeo/
 venv/
+Output/
 
 # ignorar archivos
 config/Config.ui
