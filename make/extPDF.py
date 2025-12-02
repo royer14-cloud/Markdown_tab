@@ -330,6 +330,13 @@ class SongbookPDF(FPDF):
                 self.ln(2)
             i += 1
 
+    # --- Agregar acorde en caja/rect
+    def box_chord(self, chord_block):
+        chords = "Cm Ab Dm Em"
+        x = self.get_x()
+        self.rect(x - 1, 1, self.get_string_width(chords) + 2, 9)
+        self.text(x, 8, chords)
+
     # --- Ancho completo para chord/tab (usando escala) ---
     def add_chords(self, chord_block, rootnote=None):
         cantidad, lista = self.parse_chords(chord_block)
