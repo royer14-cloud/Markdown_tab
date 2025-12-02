@@ -19,18 +19,6 @@ from load_dir import load_init, abs_path
 BASE_DIR = ""
 
 
-# def load_init():
-#     global BASE_DIR
-#     if hasattr(sys, '_MEIPASS'):
-#         BASE_DIR = sys._MEIPASS
-#     elif getattr(sys, 'frozen',False):
-#         BASE_DIR = os.path.dirname(sys.executable)
-#     else:
-#         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-#
-#     os.chdir(BASE_DIR)
-
-
 class PdfThread(QThread):
     terminado = Signal(object)
 
@@ -524,7 +512,6 @@ class MainWindow(QMainWindow):
             ruta = abs_path("make", "tutorial", "remove.exe")
             try:
                 subprocess.Popen([ruta], startupinfo=startinfo, creationflags=subprocess.CREATE_NO_WINDOW)
-                print("ejecutado: ", ruta)
             except Exception as e:
                 show_info(self, "Error", f"Ha ocurrido un error al eliminar los temporales:\n{e}", "adv", self.theme)
         super().closeEvent(event)
@@ -556,7 +543,6 @@ def get_dark_palette():
 
 def save_folder(path):
     ruta = abs_path("make", "tutorial", "path.lib")
-    print("ruta: ",ruta)
     with open(ruta, "a", encoding="utf-8") as file:
         file.write("\n"+path)
 
