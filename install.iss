@@ -24,10 +24,11 @@ DefaultDirName={userappdata}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 UninstallDisplayIcon={app}\{#MyAppExeName}
 OutputDir=Output
-OutputBaseFilename=Instalador_MarkdownTab
-Compression=lzma
+OutputBaseFilename=MarkdownTab
+Compression=lzma2/ultra64
 SolidCompression=yes
-WizardStyle=modern
+LZMAUseSeparateProcess=yes
+LZMANumBlockThreads=2
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
