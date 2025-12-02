@@ -75,19 +75,3 @@ exe = EXE(
     icon='icons/icon.png', # <--- Ruta a tu archivo de icono.
     version='version.txt' # <--- Esto indica a PyInstaller que lea la información
 )
-
-# --- Opcional: Creación de la carpeta con todos los archivos ---
-#
-# coll = COLLECT(...) crea una carpeta con el ejecutable y todas las dependencias.
-# Esto es útil para la distribución de la aplicación.
-
-coll = COLLECT(
-    exe,
-    a.binaries,
-    a.zipfiles,
-    a.datas,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    name='MarkdownTab' # Nombre de la carpeta de salida
-)
