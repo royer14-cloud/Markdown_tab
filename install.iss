@@ -15,8 +15,11 @@ AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
+AppContact=fmorinav@gmail.com
+AppCopyright=Copyright (C) 2025 MRL
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
+WindowVisible=yes
 
 ; Rutas de instalación
 ; Usamos {userappdata} para instalar por usuario, lo que no requiere permisos de administrador.
