@@ -11,6 +11,8 @@ from load_dir import abs_path
 
 
 def make_book(pathin, new=True, temp=""):
+    if not os.path.isfile(pathin):
+        raise FileNotFoundError(f"Archivo no encontrado: {pathin}")
     with open(pathin, "r", encoding="utf-8") as f:
         md_content = f.read()
 
@@ -37,13 +39,15 @@ def make_book(pathin, new=True, temp=""):
     file = os.path.join(tempdir, filename)
 
     if os.path.exists(file):
-        for _ in range(5):
+        for _ in range(4):
             try:
                 if os.path.exists(file):
                     os.remove(file)
                 break
             except PermissionError:
                 time.sleep(0.1)
+        if os.path.exists(file):
+            raise PermissionError(f"No se pudo eliminar: {file}")
 
     # generar pdf
     argument = [False, 0, None, 125.0, 250, 16, 11, 11, 12, 11, 0.6]
@@ -66,17 +70,24 @@ def make_book(pathin, new=True, temp=""):
         argument[10] = float(chord["scale"])
 
     pdf = None
-    if argument[2] == "None":
-        pdf = SongbookPDF(twocolumn=argument[0], x_pos=argument[1], page_format=(argument[3], argument[4]),
-                          size_code=argument[7], size_verse=argument[8], size_body=argument[9], scale=argument[10])
-    else:
-        pdf = SongbookPDF(twocolumn=argument[0], x_pos=argument[1], page_format=argument[2], size_code=argument[7],
-                          size_verse=argument[8], size_body=argument[9], scale=argument[10])
-    pdf.add_page()
-    pdf.set_left_margin(1)
-    pdf.set_right_margin(1)
-    pdf.add_song(meta, body)
-    pdf.output(file)
+    try:
+        if argument[2] == "None":
+            pdf = SongbookPDF(twocolumn=argument[0], x_pos=argument[1], page_format=(argument[3], argument[4]),
+                              size_code=argument[7], size_verse=argument[8], size_body=argument[9], scale=argument[10])
+        else:
+            pdf = SongbookPDF(twocolumn=argument[0], x_pos=argument[1], page_format=argument[2], size_code=argument[7],
+                              size_verse=argument[8], size_body=argument[9], scale=argument[10])
+    except Exception as e:
+        raise RuntimeError(f"Error al iniciar pdf:\n{e}")
+
+    try:
+        pdf.add_page()
+        pdf.set_left_margin(1)
+        pdf.set_right_margin(1)
+        pdf.add_song(meta, body)
+        pdf.output(file, "F")
+    except Exception as e:
+        raise RuntimeError(f"Error al generar el pdf:\n{e}")
 
     # generar imagenes
     pdfz = fitz.open(file)
@@ -84,9 +95,7 @@ def make_book(pathin, new=True, temp=""):
 
     if os.path.isdir(filepng):  # si existe - eliminar y crear nuevo
         shutil.rmtree(filepng)
-        os.mkdir(filepng)
-    else:
-        os.mkdir(filepng)
+    os.mkdir(filepng)
 
     for pg in range(pdfz.page_count):
         page = pdfz.load_page(pg)
