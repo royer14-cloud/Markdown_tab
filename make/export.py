@@ -7,6 +7,7 @@ import tempfile
 import os
 import fitz
 from configparser import ConfigParser
+from load_dir import abs_path
 
 
 def make_book(pathin, new=True, temp=""):
@@ -46,9 +47,9 @@ def make_book(pathin, new=True, temp=""):
 
     # generar pdf
     argument = [False, 0, None, 125.0, 250, 16, 11, 11, 12, 11, 0.6]
-    if os.path.isfile("config/config.cfg"):
+    if os.path.isfile(abs_path("config", "config.cfg")):
         cfg = ConfigParser()
-        cfg.read("config/config.cfg")
+        cfg.read(abs_path("config", "config.cfg"))
         page = cfg["PAGE"]
         argument[0] = bool(int(page["twocolumn"]))  # 1 True 0 False
         argument[1] = float(page["xpos"])
