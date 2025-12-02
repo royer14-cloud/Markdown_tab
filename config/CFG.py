@@ -10,16 +10,18 @@ from PySide2.QtWidgets import (
     QDialogButtonBox, QGroupBox, QPushButton, QButtonGroup
 )
 
+from load_dir import abs_path
+
 
 class MainPop(QDialog):
     def __init__(self, tema="light"):
         super().__init__()
         self.setWindowTitle("Configuracion")
         self.resize(369, 387)
-        self.setWindowIcon(QIcon("icons/dark/config.png"))
+        self.setWindowIcon(QIcon(abs_path("icons", "dark", "config.png")))
         self.theme = tema
 
-        self.cfg_file = "config/config.cfg"
+        self.cfg_file = abs_path("config", "config.cfg")
         self.config = configparser.ConfigParser()
 
         main_layout = QVBoxLayout(self)
@@ -53,12 +55,12 @@ class MainPop(QDialog):
         # Two columns or One column
         groupbox = QGroupBox()
         buton1 = QPushButton()
-        buton1.setIcon(QIcon(f"icons/{self.theme}/oneP.png"))
+        buton1.setIcon(QIcon(abs_path("icons", self.theme, "oneP.png")))
         buton1.setIconSize(QSize(72, 72))
         buton1.setCheckable(True)
         buton1.setFlat(True)
         buton2 = QPushButton()
-        buton2.setIcon(QIcon(f"icons/{self.theme}/twoP.png"))
+        buton2.setIcon(QIcon(abs_path("icons", self.theme, "twoP.png")))
         buton2.setIconSize(QSize(72, 72))
         buton2.setFlat(True)
         buton2.setCheckable(True)
@@ -238,7 +240,7 @@ class MainPop(QDialog):
         with open(self.cfg_file, "w") as configfile:
             self.config.write(configfile)
 
-        print("Archivo config.cfg actualizado")
+        # print("Archivo config.cfg actualizado")
 
     def update_spin_boxes(self):
         enabled = (self.comboBox.currentText() == "None")
@@ -247,7 +249,8 @@ class MainPop(QDialog):
 
     def change_theme(self):
         try:
-            path = f"config/{self.theme}.css"
+            tema = f"{self.theme}.css"
+            path = abs_path("config", tema)
             with open(path, "r") as file:
                 self.setStyleSheet(file.read())
         except FileNotFoundError:
