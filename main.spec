@@ -23,11 +23,16 @@ a = Analysis(
 		('make/tutorial/remove.exe', 'make/tutorial'), # carpeta del eliminador
 		('make/tutorial/remove.exe.config', 'make/tutorial'), # config del eliminador
 		('make/tutorial/example.mdg', 'make/tutorial'), # archivo del tutorial
-		('make/tutorial/new.mdg', 'make/tutorial') # archivo de muestra
+		('make/tutorial/new.mdg', 'make/tutorial'), # archivo de muestra
+		('make/chords', 'make/chords'), # carpeta de acordes
+        ('make/fonts', 'make/fonts'), # carpeta de fuentes
+        ('make/img', 'make/img') # carpeta de iconos tab
+        
     ],
     hiddenimports=[
         'View',       # Importa explícitamente el módulo View
         'Dialog',     # Importa el modulo Dialog
+        'load_dir',   # Importa el modulo abs_path
         'make.extPDF',  # Importa el módulo make.extPDF
         'make.export',  # Importa el módulo make.export
         'config.CFG',  # Importa el módulo MainPop
