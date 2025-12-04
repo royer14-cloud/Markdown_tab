@@ -1,6 +1,7 @@
 import re
 import shutil
 import time
+import subprocess
 
 from make.extPDF import SongbookPDF
 import tempfile
@@ -38,16 +39,8 @@ def make_book(pathin, new=True, temp=""):
     filename = filename + ".pdf"
     file = os.path.join(tempdir, filename)
 
-    if os.path.exists(file):
-        for _ in range(4):
-            try:
-                if os.path.exists(file):
-                    os.remove(file)
-                break
-            except PermissionError:
-                time.sleep(0.1)
-        if os.path.exists(file):
-            raise PermissionError(f"No se pudo eliminar: {file}")
+    # eliminar pdf anterior para crear uno nuevo
+    eliminar_pdf(file)
 
     # generar pdf
     argument = [False, 0, None, 125.0, 250, 16, 11, 11, 12, 11, 0.6]
@@ -106,3 +99,19 @@ def make_book(pathin, new=True, temp=""):
     pdfz = None
 
     return [filename, tempdir]
+
+
+def eliminar_pdf(path):
+    if not os.path.exists(path):
+        return
+    try:
+        startinfo = subprocess.STARTUPINFO()
+        startinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+        startinfo.wShowWindow = subprocess.SW_HIDE
+        subprocess.run(['del', '/f', '/q', os.path.normpath(path)], shell=True, startupinfo=startinfo, creationflags=subprocess.CREATE_NO_WINDOW)
+        return
+    except PermissionError as e:
+        print(f"Intento fallido: {e}")
+        time.sleep(0.1)
+    raise PermissionError(f"No se puede eliminar: {path}")
+
