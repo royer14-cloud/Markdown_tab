@@ -45,20 +45,20 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 ; Source: hace referencia a la ubicación del archivo en tu sistema (asumiendo que están en la carpeta 'dist')
 ; DestDir: es el destino dentro de la instalación (en este caso, la carpeta principal de la app)
 
-Source: "dist\MdTab.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "dist\icon.ico"; DestDir: "{app}"
-Source: "dist\LICENSE.txt"; DestDir: "{app}"; Flags: isreadme
+Source: "dist\Markdown Tab\MdTab.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dist\Markdown Tab\icon.ico"; DestDir: "{app}"
+Source: "dist\Markdown Tab\README.txt"; DestDir: "{app}"; Flags: isreadme
 
 ; --- Carpetas completas (config, icons, make) ---
 ; El flag 'recursesubdirs' asegura que se copien la carpeta y todos sus subarchivos.
 ; El asterisco Source: "dist\config\*" indica que tome todo el contenido de 'dist\config'.
 
-; Copiar la carpeta 'config' y su contenido
-Source: "dist\config\*"; DestDir: "{app}\config"; Flags: recursesubdirs createallsubdirs
-; Copiar la carpeta 'icons' y su contenido
-Source: "dist\icons\*"; DestDir: "{app}\icons"; Flags: recursesubdirs createallsubdirs
-; Copiar la carpeta 'make' y su contenido
-Source: "dist\make\*"; DestDir: "{app}\make"; Flags: recursesubdirs createallsubdirs
+; Copiar la carpeta de complementos
+Source: "dist\Markdown Tab\_internal\*"; DestDir: "{app}\_internal"; Flags: recursesubdirs createallsubdirs
+
+[UninstallDelete]
+Type: dirifempty; Name: "{app}\_internal"
+Type: files; Name: "{app}\_internal\*.*"
 
 [Icons]
 ; Icono del menú Inicio
