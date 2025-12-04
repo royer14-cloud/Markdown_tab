@@ -108,7 +108,7 @@ class ImageViewer(QWidget):
             QPushButton:pressed {background-color: #212121;border: 2px solid #FFA000;}''')
 
     def resizeEvent(self, event):
-        self.update_image(self.new)
+        self.update_image(False)
         super().resizeEvent(event)
         self.update_floating_button_position()
 
@@ -116,13 +116,13 @@ class ImageViewer(QWidget):
         if self.index > 0:
             self.index -= 1
             self.original_pixmap = QPixmap(self.images[self.index])
-            self.update_image(self.new)
+            self.update_image(True)
 
     def show_next(self):
         if self.index < len(self.images) - 1:
             self.index += 1
             self.original_pixmap = QPixmap(self.images[self.index])
-            self.update_image(self.new)
+            self.update_image(True)
 
     def update_image(self, reset_base=False):
         if self.original_pixmap.isNull():
