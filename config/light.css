@@ -44,6 +44,11 @@ QComboBox QAbstractItemView {
  background-color: #ffffff;
  selection-background-color: #e0e0e0;
 }
+QComboBox:disabled {
+    background-color: #eeeeee;   /* fondo gris */
+    color: #888888;              /* texto gris */
+    border: 1px solid #bbbbbb;
+}
 QSpinBox { border-radius: 8px;
  border: 1px solid #e0e4e7;
  padding: 5px 15px;

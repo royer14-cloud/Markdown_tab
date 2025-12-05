@@ -49,6 +49,11 @@ border: 1px solid #555555;
 background-color: #444444;
 selection-background-color: #34495e;
 }
+QComboBox:disabled {
+    background-color: #eeeeee;   /* fondo gris */
+    color: #888888;              /* texto gris */
+    border: 1px solid #bbbbbb;
+}
 QSpinBox, QDoubleSpinBox {
 border-radius: 8px;
 border: 1px solid #555555;
