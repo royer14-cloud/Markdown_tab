@@ -5,6 +5,7 @@ from fpdf.enums import XPos, YPos
 from datetime import datetime
 import json
 from load_dir import abs_path
+from config.cmessagebox import show_info
 
 
 class SongbookPDF(FPDF):
@@ -83,14 +84,19 @@ class SongbookPDF(FPDF):
         if self.columns_active and (self.get_y() + h > self.page_break_trigger):
             self.switch_column()
 
-    def write_col(self, text, h, font=None):
+    def write_col(self, text, h, font=None, margin=None):
         """multi_cell dentro de la columna, restaurando X y actualizando Y de la columna."""
         if font:
             fam, style, size = font
             self.set_font(fam, style, size)
 
         if self.is_twocolumm:
-            x = self.current_col_x() + self.x_pos
+            y = self.get_y()
+            if margin:
+                x = self.current_col_x() + self.x_pos + margin
+                y += 4
+            else:
+                x = self.current_col_x() + self.x_pos
             self.x_lpos = x
             y_test = self.get_y()
             for (y_start, y_end) in self.no_free:
@@ -98,14 +104,18 @@ class SongbookPDF(FPDF):
                     self.set_y(y_end + 3.0)
                     break
 
-            self.set_xy(x, self.get_y())
+            self.set_xy(x, y)
             self.multi_cell(self.col_width, h, text, wrapmode="CHAR")
             # multi_cell deja X en margen izquierdo → restauramos
             self.y_col[self.column] = self.get_y()
             self.set_x(x)
         else:
             # self.set_xy(x, self.get_y())
-            self.set_x(self.x_pos)
+            if margin:
+                self.set_y(self.get_y()+4)
+                self.set_x(self.x_pos+margin)
+            else:
+                self.set_x(self.x_pos)
             self.multi_cell(self.epw, h, text, wrapmode="CHAR")
             # self.set_x(x)
 
@@ -289,6 +299,33 @@ class SongbookPDF(FPDF):
             # nueva hoja
             if line.startswith("/newpage"):
                 self.newpage()
+                i += 1
+                continue
+
+            # Nota repeticion
+            if line.startswith("/repeat{"):
+                if self.is_twocolumm:
+                    self.check_space(6)
+                m = re.match(r"/repeat\s*\{([^}]*)\}\s*\{([^}]*)\}", line)
+                if not m:
+                    i += 1
+                    continue
+
+                repetir = m.group(1).strip()
+                xpos = self.l_margin + 4
+                try:
+                    xpos = float(m.group(2).strip())
+                except:
+                    xpos = self.l_margin + 4
+
+                self.set_text_color("#332288")
+                self.write_col(repetir, 3, font=("Osans", "", self.size_tverse), margin=xpos)
+                self.image(abs_path("make", "img", "arrow.svg"), x=xpos-3, y=self.get_y()-5, w=6)
+                self.set_text_color("#000000")
+                if self.is_twocolumm:
+                    self.col_lf(2)
+                else:
+                    self.ln(2)
                 i += 1
                 continue
 
