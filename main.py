@@ -56,6 +56,8 @@ class MarkdownHighlighter(QSyntaxHighlighter):
         self.titlePattern = QRegExp(r"^##.*$")
         self.codeblockStartPattern = QRegExp(r"^:::chord")
         self.codeblockEndPattern = QRegExp(r"^:::$")
+        self.chordblockStartPattern = QRegExp(r"^```chord")
+        self.chordblockEndPattern = QRegExp(r"^```$")
         self.tabblockStartPattern = QRegExp(r"^```tab\s*$")
         self.tabblockEndPattern = QRegExp(r"^```\s*$")
         self.bisPattern = QRegExp(r"</?bis>")
@@ -89,9 +91,15 @@ class MarkdownHighlighter(QSyntaxHighlighter):
             self.codeFormat.setForeground(QColor("darkGreen"))
             self.codeFormat.setFontItalic(True)
 
+            self.chordFormat = QTextCharFormat()  # ```chord
+            self.chordFormat.setFontWeight(QFont.Bold)
+            self.chordFormat.setForeground(QColor("#B03913"))
+            self.chordFormat.setBackground(QColor("#F1D8B6"))
+            self.chordFormat.setFontItalic(True)
+
             self.tabFormat = QTextCharFormat()
-            self.tabFormat.setForeground(QColor("#000000"))
-            self.tabFormat.setBackground(QColor("#CCCCCC"))
+            self.tabFormat.setForeground(QColor("#9C6D1C"))
+            self.tabFormat.setBackground(QColor("#F1D9B1"))
 
             self.bisFormat = QTextCharFormat()
             self.bisFormat.setFontWeight(QFont.Bold)
@@ -112,6 +120,12 @@ class MarkdownHighlighter(QSyntaxHighlighter):
             self.codeFormat.setBackground(QColor("#263238"))
             self.codeFormat.setForeground(QColor("#A5D6A7"))
             self.codeFormat.setFontItalic(True)
+
+            self.chordFormat = QTextCharFormat()  # ```chord
+            self.chordFormat.setFontWeight(QFont.Bold)
+            self.chordFormat.setForeground(QColor("#0020B0"))
+            self.chordFormat.setBackground(QColor("#3E89E6"))
+            self.chordFormat.setFontItalic(True)
 
             self.tabFormat = QTextCharFormat()
             self.tabFormat.setForeground(QColor("#EEEEEE"))
@@ -150,7 +164,7 @@ class MarkdownHighlighter(QSyntaxHighlighter):
             self.setCurrentBlockState(1)
             self.setFormat(0, len(text), self.codeFormat)
         else:
-            if self.currentBlockState() != 2:  # no sobreescribir bloque tab
+            if self.currentBlockState() != 2 and self.currentBlockState() != 3:  # no sobreescribir bloque tab
                 self.setCurrentBlockState(0)
 
         # Multilínea para bloques de tablatura (estado 2)
@@ -163,7 +177,20 @@ class MarkdownHighlighter(QSyntaxHighlighter):
             self.setCurrentBlockState(2)
             self.setFormat(0, len(text), self.tabFormat)
         else:
-            if self.currentBlockState() != 1:  # no sobreescribir bloque chord
+            if self.currentBlockState() != 1 and self.currentBlockState() != 3:  # no sobreescribir bloque chord
+                self.setCurrentBlockState(0)
+
+        # Multilinea para bloques de chord ```chord (estado 3)
+        if self.previousBlockState() == 3:
+            self.setCurrentBlockState(3)
+            self.setFormat(0, len(text), self.chordFormat)
+            if self.chordblockEndPattern.indexIn(text) != -1:
+                self.setCurrentBlockState(0)  # finaliza bloque
+        elif self.chordblockStartPattern.indexIn(text) != -1:
+            self.setCurrentBlockState(3)
+            self.setFormat(0, len(text), self.chordFormat)
+        else:
+            if self.currentBlockState() != 2 and self.currentBlockState() != 1:  # No sobreeescribir bloques anteriores
                 self.setCurrentBlockState(0)
 
         index = self.bisPattern.indexIn(text, 0)
