@@ -152,6 +152,11 @@ class SongbookPDF(FPDF):
         self.set_font("Helvetica", 'I', 12)
         self.cell(0, 8, f"{meta.get('autor', 'Desconocido')}",
                   new_x=XPos.LMARGIN, new_y=YPos.NEXT, align="C")
+
+        # Marcador de agua
+        self.set_font("Fira", '', 8)
+        self.text(4, 6, "By Markdown Tab")
+
         self.ln(3)
         # Contenido
         self.parse_body(body)
