@@ -260,6 +260,20 @@ class SongbookPDF(FPDF):
                 i += 1
                 continue
 
+            # --- Bloque de acordes en cajas
+            if line.startswith("```chord"):
+                m = re.match(r"```chord", line)
+                if m:
+                    chord_block = []
+                    i += 1
+                    while i < len(lines) and not lines[i].startswith("```"):
+                        chord_block.append(lines[i])
+                        i += 1
+
+                    self.box_chord(chord_block)
+                    i += 1
+                    continue
+
             # --- Bloque ```tab (ancho completo) ---
             if line.startswith("```tab"):
                 tab_block = []
@@ -332,11 +346,67 @@ class SongbookPDF(FPDF):
             i += 1
 
     # --- Agregar acorde en caja/rect
-    def box_chord(self, chord_block):
-        chords = "Cm Ab Dm Em"
-        x = self.get_x()
-        self.rect(x - 1, 1, self.get_string_width(chords) + 2, 9)
-        self.text(x, 8, chords)
+    def box_chord(self, lines):
+        """
+            Procesa líneas dentro de un bloque ```chord
+            Dibuja texto normal y cajas para los acordes <...>.
+        """
+        self.ln(2)
+        self.set_font("Consolas", "", 14)
+        h_line = 4
+
+        Colores = [
+            (255, 230, 230),  # rosado claro
+            (230, 255, 230),  # verde claro
+            (230, 230, 255),  # celeste claro
+            (255, 245, 225),  # crema
+            (240, 240, 240),  # gris suave
+        ]
+        index_color = 0
+
+        for raw in lines:
+            line = raw.rstrip("\n")
+
+            # Buscar bloques <...>
+            parts = re.findall(r"<[^>]+>|[ \t]+|[^< \t]+", line)
+
+            x = self.l_margin
+            y = self.get_y()
+            baseline_y = y + h_line - 2
+
+            for part in parts:
+                # --- 1. Si es un bloque <...> → dibuja rect ---
+                if part.startswith("<") and part.endswith(">"):
+                    chords = part.replace("<", " ").replace(">", " ")
+                    w = self.get_string_width(chords)  # padding
+
+                    # Dibujar caja
+                    # self.set_xy(x, y)
+                    self.set_line_width(0.9)
+
+                    index_color = (index_color + 1) % len(Colores)
+                    self.set_draw_color(tuple(int(x * 0.5) for x in Colores[index_color]))
+                    self.set_fill_color(Colores[index_color])
+                    self.rect(x, y-2, w, h_line+1, style="DF", round_corners=True)
+
+                    # restablecer
+                    self.set_line_width(0.5)
+
+                    # Dibujar texto dentro
+                    self.text(x, baseline_y, chords)
+
+                    x += w + 1  # avanzar cursor horizontal
+                    continue
+                if part.isspace():
+                    x += self.get_string_width(part)
+                    continue
+
+                # --- 2. Texto normal ---
+                self.text(x, baseline_y-1, part)
+                x += self.get_string_width(part)
+
+            # Saltar a la siguiente línea
+            self.ln(h_line)
 
     # --- Ancho completo para chord/tab (usando escala) ---
     def add_chords(self, chord_block, rootnote=None):
