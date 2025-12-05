@@ -2,7 +2,7 @@
 ; Asegúrate de que todos estos archivos y carpetas existan dentro del directorio del script (.iss) o en subdirectorios definidos.
 
 #define MyAppName "Markdown Tab"
-#define MyAppVersion "1.2"
+#define MyAppVersion "1.3"
 #define MyAppPublisher "FRM"
 #define MyAppURL "https://github.com/royer14-cloud/Markdown_tab"
 #define MyAppExeName "MdTab.exe"
